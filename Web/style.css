@@ -1,0 +1,137 @@
+/*******************************************************************************
+ *
+ * Nom : style.css
+ * Date et auteur :
+ *      Binafou Fofana
+ *		Créé le 23/09/2026
+ *
+ * Description :
+ *		Fichier CSS du TP initiation à CSS
+ *
+ *******************************************************************************/
+
+* {
+  box-sizing: border-box;
+}
+
+body{
+	font-family: Arial,Helvetica,sans-serif;
+    line-height: 1.5em;
+}
+
+header{
+    background-color: darkgrey;
+    color: white;
+    text-align: center;
+    font-size: 2em;
+    line-height: 1.2em;
+    margin: 10px;
+    padding: 10px;
+}
+
+section{
+    margin: 10px;
+}
+
+article{
+    margin: 10px;
+    padding: 10px;
+    border: 2px dotted grey;
+}
+
+p{
+    margin: 10px;
+}
+
+h1{
+    color: red;
+    text-align: center;
+    font-size: 2em;
+    font-variant: small-caps;
+}
+
+h2{
+    background-color: red;
+    border-left: 50px solid black;
+    text-transform: capitalize;
+    padding: 10px;
+}
+
+div#info{
+    color: white;
+    background-color: brown;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.2em;
+    line-height: 2em;
+    padding: 10px;
+    margin-left : 20%;
+    margin-right : 20%;
+}
+
+.documentation{
+    background-color: green;
+    color: white;
+    padding: 10px;
+}
+
+.documentation a {
+    text-decoration: none;
+    background-color: darkgreen;
+    color: greenyellow;
+    padding: 5px;
+}
+
+.documentation a:hover {
+    background-color: lightgreen;
+    color: darkgreen;
+}
+
+.code {
+    font-family: Courier;
+    background-color: #f2f2f2;
+    border: 1px solid #d3d3d3;
+    border-radius: 5px;
+}
+
+pre {
+    margin: 10px;
+    padding: 10px;
+}
+
+table {
+    width: 60%;
+    margin: auto;
+    line-height: 2em;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: darkblue;
+    color: white;
+    height: 3em;
+}
+
+tr:nth-child(even) {
+    background-color: lightblue;
+}
+
+tr:last-child {
+    color: blue;
+}
+
+footer {
+    background-color: darkgrey;
+    color: white;
+    text-align: center;
+    margin: 5px;
+    padding: 10px;
+}
