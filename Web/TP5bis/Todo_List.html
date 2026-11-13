@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List Alpine.js</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        /* CSS pour le thème sombre */
+        .dark {
+            background: #1e1e1e;
+            color: #f5f5f5;
+        }
+        /* CSS pour la lecture */
+        .dyslexie {
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+            word-spacing: 0.12em;
+        }
+        .dyslexie p,
+        .dyslexie li {
+            max-width: 70ch;
+            font-size: 1.08rem;
+        }
+        .terminee {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body x-data="todoApp()" x-init="init()" :class="{ 'dark': darkMode, 'dyslexie': dyslexie }">
+
+<div style="padding: 20px;">
+    <h1>Ma Todo List</h1>
+    <div style="margin-bottom: 20px;">
+        <button @click="basculerTheme()">Changer de thème</button>
+        <button @click="basculerDyslexie()">Lecture facilitée</button>
+    </div>
+
+    <p x-text="calculerStats()"></p>
+
+    <div>
+        <input type="text" x-model="nouvelleTache" placeholder="Nouvelle tâche" @keydown.enter="ajouterTache()">
+        <button @click="ajouterTache()">Ajouter</button>
+    </div>
+
+    <ul>
+        <template x-for="(tache, index) in taches" :key="index">
+            <li :class="{ 'terminee': tache.faite }">
+
+                <input type="checkbox" x-model="tache.faite" @change="sauvegarderTaches()">
+
+                <span x-text="tache.nom"></span>
+
+                <button @click="supprimerTache(index)" aria-label="Supprimer la tâche">X</button>
+            </li>
+        </template>
+    </ul>
+</div>
+
+<script>
+    function todoApp() {
+        return {
+            taches: [],
+            nouvelleTache: '',
+            darkMode: false,
+            dyslexie: false,
+
+            init() {
+                this.darkMode = localStorage.getItem('theme') === 'dark';
+                this.dyslexie = localStorage.getItem('dyslexie') === 'true';
+                this.taches = JSON.parse(localStorage.getItem('taches')) || [];
+            },
+
+            basculerTheme() {
+                this.darkMode = !this.darkMode;
+                localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+                this.setCookie('theme', this.darkMode ? 'dark' : 'light', 7);
+            },
+
+            basculerDyslexie() {
+                this.dyslexie = !this.dyslexie;
+                localStorage.setItem('dyslexie', this.dyslexie ? 'true' : 'false');
+            },
+
+            ajouterTache() {
+                if (this.nouvelleTache.trim() === '') return;
+                this.taches.push({ nom: this.nouvelleTache, faite: false });
+                this.nouvelleTache = '';
+                this.sauvegarderTaches();
+            },
+
+            supprimerTache(index) {
+                this.taches.splice(index, 1);
+                this.sauvegarderTaches();
+            },
+
+            sauvegarderTaches() {
+                localStorage.setItem('taches', JSON.stringify(this.taches));
+            },
+
+            calculerStats() {
+                let finies = 0;
+                for (let i = 0; i < this.taches.length; i++) {
+                    if (this.taches[i].faite === true) {
+                        finies++;
+                    }
+                }
+                return finies + ' / ' + this.taches.length + ' tâche(s) terminée(s)';
+            },
+
+            setCookie(name, value, days) {
+                let date = new Date(Date.now() + days * 86400000);
+                let maxAge = days * 86400;
+                document.cookie = name + '=' + value + '; max-age=' + maxAge + '; path=/; expires=' + date.toUTCString();
+            },
+
+            getCookie(name) {
+                let value = '; ' + document.cookie;
+                let parts = value.split('; ' + name + '=');
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+            },
+
+            deleteCookie(name) {
+                document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+            }
+        }
+    }
+</script>
+</body>
+</html>
